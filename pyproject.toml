@@ -21,4 +21,4 @@ classifiers = [
 
 [project.entry-points.console_scripts]
 hello = "hello_world.main:main"
-
+scan = "Portscanner.main:main"
