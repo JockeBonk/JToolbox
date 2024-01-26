@@ -4,14 +4,14 @@ This is a portscanner.
 import socket
 import pyfiglet
 
+BANNER = pyfiglet.figlet_format("Portscanner")
+print(BANNER)
+
 START_PORT = 1
 END_PORT = 1001
 
 with open('port_list.txt', mode='r', encoding='utf-8') as file:
     port_list = file.read().split(',')
-
-BANNER = pyfiglet.figlet_format("Portscanner")
-print(BANNER)
 
 
 def auto_scan(target, ports):
@@ -21,6 +21,9 @@ def auto_scan(target, ports):
     :param ports: list of ports to scan.
     :return: returns open ports.
     """
+    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
+        file.write('The open ports from your latest auto scan:\n')
+
     for port in ports:
         port = int(port)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -28,7 +31,15 @@ def auto_scan(target, ports):
         result = sock.connect_ex((target, port))
         if result == 0:
             print(f"\033[1;32m Port {port} is open")
+
+            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
+                result_file = file.write(str(port) + ',')
+
         sock.close()
+
+    with open('latest_scan_result.txt', 'r') as file:
+        file.read().split(',')
+    print("Scan finished.")
 
 
 def basic_scan(target):
@@ -37,6 +48,9 @@ def basic_scan(target):
     :param target: Target IP-address
     :return: All open ports between 1-1000
     """
+    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
+        file.write('The open ports from your latest 1-1000 scan:\n')
+
     open_ports = []
 
     for port in range(START_PORT, END_PORT + 1):
@@ -46,7 +60,14 @@ def basic_scan(target):
         if result == 0:
             open_ports.append(port)
             print(f"\033[1;32m Port {port} is open")
+
+            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
+                result_file = file.write(str(port) + ',')
         sock.close()
+
+    with open('latest_scan_result.txt', 'r') as file:
+        file.read().split(',')
+    print("Scan finished.")
 
 
 def main():
@@ -64,6 +85,7 @@ def main():
         if mode == '1':
             print("Starting scan..")
             auto_scan(target, port_list)
+
         elif mode == '2':
             print("Starting scan..")
             basic_scan(target)

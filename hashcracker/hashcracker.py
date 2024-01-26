@@ -5,7 +5,7 @@ BANNER = pyfiglet.figlet_format("HashCracker")
 print(BANNER)
 
 print("Valid hash algorithms: MD5 | SHA1 | SHA512 | SHA224")
-valid_hash_types = ('MD5','SHA1','SHA512','SHA224')
+valid_hash_types = ('MD5', 'SHA1', 'SHA512', 'SHA224')
 hash_type = ''
 
 while hash_type not in valid_hash_types:
