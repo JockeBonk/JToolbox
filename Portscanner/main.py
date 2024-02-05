@@ -1,48 +1,97 @@
 """
-This is a basic portscanner
+This is a portscanner.
 """
-
 import socket
-import concurrent.futures
+import pyfiglet
+
+BANNER = pyfiglet.figlet_format("Portscanner")
+print(BANNER)
+
+START_PORT = 1
+END_PORT = 1001
+
+with open('port_list.txt', mode='r', encoding='utf-8') as file:
+    port_list = file.read().split(',')
 
 
-target = input("Enter a target IP: ")
-start_port = 1
-end_port = 1000
+def auto_scan(target, ports):
+    """
+    This function scans and prints out all open ports in a given list.
+    :param target: Target IP-address
+    :param ports: list of ports to scan.
+    :return: returns open ports.
+    """
+    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
+        file.write('The open ports from your latest auto scan:\n')
 
-def port_scan(target, port):
-    try:
+    for port in ports:
+        port = int(port)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(1)
+        sock.settimeout(0.2)
         result = sock.connect_ex((target, port))
         if result == 0:
-            return port
+            print(f"\033[1;32m Port {port} is open")
+
+            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
+                result_file = file.write(str(port) + ',')
+
         sock.close()
-    except:
-        pass
-    return None
 
-def scan_ports(target, start_port, end_port):
+    with open('latest_scan_result.txt', 'r') as file:
+        file.read().split(',')
+    print("Scan finished.")
+
+
+def basic_scan(target):
+    """
+    Scans and prints out all open ports from 1 to 1000
+    :param target: Target IP-address
+    :return: All open ports between 1-1000
+    """
+    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
+        file.write('The open ports from your latest 1-1000 scan:\n')
+
     open_ports = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-        port_list = range(start_port, end_port +1)
-        results = {executor.submit(port_scan, target, port): port for port in port_list}
-        for future in concurrent.futures.as_completed(results):
-            port = results[future]
-            if future.result():
-                open_ports.append(port)
-                print(f"Found open port: {port}")
-    return open_ports
+
+    for port in range(START_PORT, END_PORT + 1):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(0.2)
+        result = sock.connect_ex((target, port))
+        if result == 0:
+            open_ports.append(port)
+            print(f"\033[1;32m Port {port} is open")
+
+            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
+                result_file = file.write(str(port) + ',')
+        sock.close()
+
+    with open('latest_scan_result.txt', 'r') as file:
+        file.read().split(',')
+    print("Scan finished.")
 
 
-print(f"Scanning ports {start_port}-{end_port} on {target}...")
+def main():
+    """
+    Lets the user select which mode to use. Auto or 1-1000 mode
+    :return:
+    """
+    target = str(input("Enter your target IP: "))
+    valid_mode = ('1', '2')
+    mode = ''
 
-open_ports = scan_ports(target, start_port, end_port)
+    while mode not in valid_mode:
+        mode = str(input("Enter the mode you want to use (1, 2):"
+                         "\n1. Auto(Popular ports)\n2. Ports 1-1000\n"))
+        if mode == '1':
+            print("Starting scan..")
+            auto_scan(target, port_list)
 
-if open_ports:
-    print("All open ports:")
-    for port in open_ports:
-        print(port)
-else:
-    print("No open ports found :(")
+        elif mode == '2':
+            print("Starting scan..")
+            basic_scan(target)
+        else:
+            print("Enter a valid option.")
 
+
+if __name__ == '__main__':
+    main()
