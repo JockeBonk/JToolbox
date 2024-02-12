@@ -1,0 +1,6 @@
+requests
+selenium
+pyfiglet
+python-docx
+bs4
+
