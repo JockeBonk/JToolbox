@@ -1,0 +1,1 @@
+To run cookie_clicker.py you need to add a chromedriver.exe to this folder.
