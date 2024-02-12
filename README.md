@@ -1,8 +1,8 @@
 # JToolbox
 
 ### Initialize
-<p>git clone https://github.com/JockeBonk/JToolbox.git</p> 
-<p>pip install -r requirements.txt</p>
+<p>git clone https://github.com/JockeBonk/JToolbox.git<br>
+pip install -r requirements.txt</p>
 
 ### Usage
 
