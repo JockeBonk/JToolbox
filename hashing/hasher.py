@@ -15,24 +15,24 @@ def hasher():
         user_input = str(input("Enter password to hash: "))
         hash_object = hashlib.md5(f"{user_input}".encode('ASCII'))
         hashed = hash_object.hexdigest()
-        print(f"\033[1;32m Your hash: {hashed}\033[0m")
+        print(f"\033[1;32mYour hash: {hashed}\033[0m")
 
     if hash_option == 'SHA1':
         user_input = str(input("Enter password to hash: "))
         hash_object = hashlib.SHA1(f"{user_input}".encode('ASCII'))
         hashed = hash_object.hexdigest()
-        print(f"\033[1;32m Your hash: {hashed}\033[0m")
+        print(f"\033[1;32mYour hash: {hashed}\033[0m")
 
     if hash_option == 'SHA512':
         user_input = str(input("Enter password to hash: "))
         hash_object = hashlib.SHA512(f"{user_input}".encode('ASCII'))
         hashed = hash_object.hexdigest()
-        print(f"\033[1;32m Your hash: {hashed}\033[0m")
+        print(f"\033[1;32mYour hash: {hashed}\033[0m")
 
     if hash_option == 'SHA224':
         user_input = str(input("Enter password to hash: "))
         hash_object = hashlib.SHA224(f"{user_input}".encode('ASCII'))
         hashed = hash_object.hexdigest()
-        print(f"\033[1;32m Your hash: {hashed}\033[0m")
+        print(f"\033[1;32mYour hash: {hashed}\033[0m")
 
 hasher()

@@ -32,7 +32,7 @@ def auto_scan(target, ports):
         sock.settimeout(0.2)
         result = sock.connect_ex((target, port))
         if result == 0:
-            print(f"\033[1;32m Port {port} is open\033[0m")
+            print(f"\033[1;32mPort {port} is open\033[0m")
             document.add_paragraph(f"Port {port} is open")
             document.save("open_ports.docx")
         sock.close()
@@ -54,7 +54,7 @@ def basic_scan(target):
         result = sock.connect_ex((target, port))
         if result == 0:
             open_ports.append(port)
-            print(f"\033[1;32m Port {port} is open\033[0m")
+            print(f"\033[1;32mPort {port} is open\033[0m")
 
         sock.close()
 
