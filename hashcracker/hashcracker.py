@@ -24,22 +24,22 @@ for word in LIST:
         hash_object = hashlib.md5(f"{word}".encode('utf-8'))
         hashed = hash_object.hexdigest()
         if HASH == hashed:
-            print(f"\033[1;32m HASH CRACKED: {word}")
+            print(f"\033[1;32m HASH CRACKED: {word}\033[0m")
 
     elif hash_type == "SHA1":
         hash_object = hashlib.sha1(f"{word}".encode('utf-8'))
         hashed = hash_object.hexdigest()
         if HASH == hashed:
-            print(f"\033[1;32m HASH CRACKED: {word}")
+            print(f"\033[1;32m HASH CRACKED: {word}\033[0m")
 
     elif hash_type == "SHA512":
         hash_object = hashlib.sha512(f"{word}".encode('utf-8'))
         hashed = hash_object.hexdigest()
         if HASH == hashed:
-            print(f"\033[1;32m HASH CRACKED: {word}")
+            print(f"\033[1;32m HASH CRACKED: {word}\033[0m")
     
     elif hash_type == "SHA224":
         hash_object = hashlib.sha224(f"{word}".encode('utf-8'))
         hashed = hash_object.hexdigest()
         if HASH == hashed:
-            print(f"\033[1;32m HASH CRACKED: {word}")
+            print(f"\033[1;32m HASH CRACKED: {word}\033[0m")

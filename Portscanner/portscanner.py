@@ -25,8 +25,6 @@ def auto_scan(target, ports):
     :param ports: list of ports to scan.
     :return: returns open ports.
     """
-    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
-        file.write('The open ports from your latest auto scan:\n')
 
     for port in ports:
         port = int(port)
@@ -34,17 +32,12 @@ def auto_scan(target, ports):
         sock.settimeout(0.2)
         result = sock.connect_ex((target, port))
         if result == 0:
-            print(f"\033[1;32m Port {port} is open")
-
-            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
-                result_file = file.write(str(port) + ',')
-
+            print(f"\033[1;32m Port {port} is open\033[0m")
+            document.add_paragraph(f"Port {port} is open")
+            document.save("open_ports.docx")
         sock.close()
 
-    with open('latest_scan_result.txt', 'r') as file:
-        file.read().split(',')
     print("Scan finished.")
-
 
 
 def basic_scan(target):
@@ -53,9 +46,6 @@ def basic_scan(target):
     :param target: Target IP-address
     :return: All open ports between 1-1000
     """
-    with open('latest_scan_result.txt', 'w', encoding='utf-8') as file:
-        file.write('The open ports from your latest 1-1000 scan:\n')
-
     open_ports = []
 
     for port in range(START_PORT, END_PORT + 1):
@@ -64,16 +54,11 @@ def basic_scan(target):
         result = sock.connect_ex((target, port))
         if result == 0:
             open_ports.append(port)
-            print(f"\033[1;32m Port {port} is open")
+            print(f"\033[1;32m Port {port} is open\033[0m")
 
-            with open('latest_scan_result.txt', 'a', encoding='utf-8') as file:
-                result_file = file.write(str(port) + ',')
         sock.close()
 
-    with open('latest_scan_result.txt', 'r') as file:
-        file.read().split(',')
     print("Scan finished.")
-
     for port in open_ports:
         document.add_paragraph(f"Port {port} is open")
 
@@ -101,5 +86,5 @@ def main():
         else:
             print("Enter a valid option.")
 
-
+    print("Result saved to open_ports.docx")
 main()
