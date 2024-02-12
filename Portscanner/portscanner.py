@@ -3,12 +3,16 @@ This is a portscanner.
 """
 import socket
 import pyfiglet
+from docx import Document
 
 BANNER = pyfiglet.figlet_format("Portscanner")
 print(BANNER)
 
 START_PORT = 1
 END_PORT = 1001
+
+document = Document()
+document.add_heading("Open ports", 0)
 
 with open('port_list.txt', mode='r', encoding='utf-8') as file:
     port_list = file.read().split(',')
@@ -42,6 +46,7 @@ def auto_scan(target, ports):
     print("Scan finished.")
 
 
+
 def basic_scan(target):
     """
     Scans and prints out all open ports from 1 to 1000
@@ -69,6 +74,10 @@ def basic_scan(target):
         file.read().split(',')
     print("Scan finished.")
 
+    for port in open_ports:
+        document.add_paragraph(f"Port {port} is open")
+
+    document.save("open_ports.docx")
 
 def main():
     """
@@ -93,5 +102,4 @@ def main():
             print("Enter a valid option.")
 
 
-if __name__ == '__main__':
-    main()
+main()
