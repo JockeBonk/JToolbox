@@ -64,10 +64,10 @@ def basic_scan(target):
 
     document.save("open_ports.docx")
 
+
 def main():
     """
     Lets the user select which mode to use. Auto or 1-1000 mode
-    :return:
     """
     target = str(input("Enter your target IP: "))
     valid_mode = ('1', '2')
@@ -87,4 +87,6 @@ def main():
             print("Enter a valid option.")
 
     print("Result saved to open_ports.docx")
+
+
 main()

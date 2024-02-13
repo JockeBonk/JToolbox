@@ -1,33 +1,36 @@
-from bs4 import BeautifulSoup
-import requests.exceptions
+"""
+This script scrapes a website and outputs all found email addresses.
+"""
 import urllib.parse
-from collections import deque
 import re
+from collections import deque
+import requests.exceptions
+from bs4 import BeautifulSoup
 
-input_url = str(input("Please enter target URL: "))
-urls = deque([input_url])
+INPUT_URL = str(input("Please enter target URL: "))
+urls = deque([INPUT_URL])
 
 scraped_urls = set()
 emails = set()
 
-count = 0
+COUNT = 0
 try:
     while len(urls):
-        count += 1
-        if count == 20:
+        COUNT += 1
+        if COUNT == 20:
             break
         url = urls.popleft()
         scraped_urls.add(url)
 
         parts = urllib.parse.urlsplit(url)
-        base_url = '{0.scheme}.//{0.netloc}'.format(parts)
+        base_url = f"{parts.scheme}://{parts.netloc}"
 
         path = url[:url.rfind('/')+1] if '/' in parts.path else url
 
-        print('[%d] Processing %s' % (count, url))
-        
+        print(f"[{COUNT}] Processing {url}")
+
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
         except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
             continue
 
@@ -42,7 +45,7 @@ try:
                 link = base_url + link
             elif not link.startswith('http'):
                 link = path + link
-            if not link in urls and not link in scraped_urls:
+            if link not in urls and link not in scraped_urls:
                 urls.append(link)
 
 except KeyboardInterrupt:

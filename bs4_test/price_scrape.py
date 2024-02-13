@@ -1,9 +1,12 @@
+"""
+This script scrapes the prices off of Wizeguy.se & highlights discounted prices.
+"""
 from bs4 import BeautifulSoup
 import requests
 
-url = "https://www.wizeguy.se/sv/artiklar/airsoft/airsoft-gevr/index.html"
+URL = "https://www.wizeguy.se/sv/artiklar/airsoft/airsoft-gevr/index.html"
 
-result = requests.get(url)
+result = requests.get(URL, timeout=5)
 
 soup = BeautifulSoup(result.content, "html.parser")
 
@@ -21,4 +24,3 @@ for product in products:
         print(product_name, "-", discount.text, "\033[1;32m REA!\033[0m")
     else:
         print(product_name, "-", product_pris.text.strip())
-

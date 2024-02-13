@@ -1,9 +1,9 @@
+"""
+This script takes the user from randomuser.me api and prints the users name, gender and age.
+"""
 import requests
 
-response = requests.get('https://randomuser.me/api')
-
-#print(response.status_code)
-#print(response.json())
+response = requests.get('https://randomuser.me/api', timeout=5)
 
 title = response.json()['results'][0]['name']['title']
 first_name = response.json()['results'][0]['name']['first']

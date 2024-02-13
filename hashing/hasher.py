@@ -1,6 +1,13 @@
+"""
+This program hashes you given strings into MD5, SHA1, SHA512 or SHA224.
+"""
 import hashlib
 
+
 def hasher():
+    """
+    This function hashes your string into MD5, SHA1, SHA512 or SHA224.
+    """
     print("Available hashing options: MD5 | SHA1 | SHA512 | SHA224 ")
 
     valid_options = ('MD5', 'SHA1', 'SHA512', 'SHA224')

@@ -1,3 +1,7 @@
+"""
+This program opens "Cookie clicker" in a chrome browser,
+clicks the cookie repeatedly and buys upgrades as they become available.
+"""
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -10,11 +14,11 @@ driver = webdriver.Chrome(service=service)
 
 driver.get("https://orteil.dashnet.org/cookieclicker/")
 
-cookie_id = "bigCookie"
-amount_id = "cookies"
-product_prefix = "product"
-product_price_prefix = "productPrice"
-upgrades = "upgrades"
+COOKIE_ID = "bigCookie"
+AMOUNT_ID = "cookies"
+PRODUCT_PREFIX = "product"
+PRODUCT_PRICE_PREFIX = "productPrice"
+UPGRADES = "upgrades"
 
 consent = driver.find_element(By.CLASS_NAME, "fc-button.fc-cta-consent.fc-primary-button")
 consent.click()
@@ -27,28 +31,29 @@ language = driver.find_element(By.XPATH, "//*[contains(text(), 'English')]")
 language.click()
 
 WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, cookie_id))
+    EC.presence_of_element_located((By.ID, COOKIE_ID))
 )
 
-cookie = driver.find_element(By.ID, cookie_id)
+cookie = driver.find_element(By.ID, COOKIE_ID)
 
-counter = 0
+COUNTER = 0
 
 while True:
     cookie.click()
-    cookie_amount = driver.find_element(By.ID, amount_id).text.split(" ")[0]
+    cookie_amount = driver.find_element(By.ID, AMOUNT_ID).text.split(" ")[0]
     cookie_amount = int(cookie_amount.replace(",", ""))
 
-    counter += 1
+    COUNTER += 1
 
-    if counter >= 500:
-        upgrade_tab = driver.find_element(By.ID, upgrades)
+    if COUNTER >= 500:
+        upgrade_tab = driver.find_element(By.ID, UPGRADES)
         actions = ActionChains(driver)
         actions.move_to_element_with_offset(upgrade_tab, -100, 20).click().perform()
-        counter = 0
+        COUNTER = 0
 
     for i in range(4):
-        product_price = driver.find_element(By.ID, product_price_prefix + str(i)).text.replace(",", "")
+        product_price = driver.find_element(By.ID, PRODUCT_PRICE_PREFIX
+                                            + str(i)).text.replace(",", "")
 
         if not product_price.isdigit():
             continue
@@ -56,6 +61,5 @@ while True:
         product_price = int(product_price)
 
         if cookie_amount >= product_price:
-            product = driver.find_element(By.ID, product_prefix + str(i))
+            product = driver.find_element(By.ID, PRODUCT_PREFIX + str(i))
             product.click()
-
